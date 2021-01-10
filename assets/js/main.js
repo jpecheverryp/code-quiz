@@ -17,14 +17,16 @@ var firstQuestion = {
 
 function displayQuestion(questionObject) {
     cleanScreen();
+    console.log(pageContainer);
     var questionHeading = document.createElement('h2');
     questionHeading.textContent = questionObject.question;
-    document.body.append(questionHeading);
+    console.log(questionHeading);
+    pageContainer.appendChild(questionHeading);
 
     questionObject.answers.forEach(answer => {
         var answerButton = document.createElement('button');
         answerButton.textContent = answer;
-        document.body.append(answerButton)
+        pageContainer.appendChild(answerButton)
     });
 }
 
