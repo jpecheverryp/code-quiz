@@ -15,19 +15,34 @@ var firstQuestion = {
     correctAnswer: 1
 }
 
+function setClickEvents(index) {
+    var possible = document.getElementById('possible' + index);
+    possible.addEventListener('click', function () {
+        console.log(possible);
+    })
+}
+
+// Cleans the screen and adds a heading2 and 4 buttons using the question object
 function displayQuestion(questionObject) {
     cleanScreen();
-    console.log(pageContainer);
+    // Creates heading element
     var questionHeading = document.createElement('h2');
+    // Asigns question to the heading
     questionHeading.textContent = questionObject.question;
-    console.log(questionHeading);
+    // Appends heading to page
     pageContainer.appendChild(questionHeading);
 
+    // Creates a button for each possible answer and appends it to page
     questionObject.answers.forEach(answer => {
         var answerButton = document.createElement('button');
         answerButton.textContent = answer;
-        pageContainer.appendChild(answerButton)
+        // Gives the possible answer an id of possible plus the index of the answer in the array
+        answerButton.id = 'possible' + questionObject.answers.indexOf(answer);
+        pageContainer.appendChild(answerButton);
+        // Calls function to set the event listeners of the different possible answers
+        setClickEvents(questionObject.answers.indexOf(answer));
     });
+    
 }
 
 function cleanScreen() {
@@ -37,7 +52,7 @@ function cleanScreen() {
 }
 
 function startQuiz() {
-    displayQuestion(firstQuestion)
+    displayQuestion(firstQuestion);
 }
 
-startButton.addEventListener('click', startQuiz)
+startButton.addEventListener('click', startQuiz);
