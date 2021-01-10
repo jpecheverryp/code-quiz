@@ -14,6 +14,18 @@ var firstQuestion = {
     correctAnswer: 1
 }
 
+function displayQuestion(questionObject) {
+    var questionHeading = document.createElement('h2');
+    questionHeading.textContent = questionObject.question;
+    document.body.append(questionHeading);
+
+    questionObject.answers.forEach(answer => {
+        var answerButton = document.createElement('button');
+        answerButton.textContent = answer;
+        document.body.append(answerButton)
+    });
+}
+
 function removeStartScreen() {
     startHeading.remove();
     startDescription.remove();
@@ -23,6 +35,7 @@ function removeStartScreen() {
 function startQuiz() {
     removeStartScreen();
     console.log(firstQuestion);
+    displayQuestion(firstQuestion)
 }
 
 startButton.addEventListener('click', startQuiz)
