@@ -1,4 +1,5 @@
 // INITIALIZATION
+var pageContainer = document.getElementById('page-container');
 var startButton = document.getElementById('start-button');
 var startHeading = document.getElementById('start-heading');
 var startDescription = document.getElementById('start-description');
@@ -15,6 +16,7 @@ var firstQuestion = {
 }
 
 function displayQuestion(questionObject) {
+    cleanScreen();
     var questionHeading = document.createElement('h2');
     questionHeading.textContent = questionObject.question;
     document.body.append(questionHeading);
@@ -26,15 +28,13 @@ function displayQuestion(questionObject) {
     });
 }
 
-function removeStartScreen() {
-    startHeading.remove();
-    startDescription.remove();
-    startButton.remove();
+function cleanScreen() {
+    while(pageContainer.firstChild) {
+        pageContainer.removeChild(pageContainer.firstChild);
+    }
 }
 
 function startQuiz() {
-    removeStartScreen();
-    console.log(firstQuestion);
     displayQuestion(firstQuestion)
 }
 
