@@ -15,10 +15,10 @@ var firstQuestion = {
     correctAnswer: 1
 }
 
-function setClickEvents(index) {
-    var possible = document.getElementById('possible' + index);
+function setClickEvents(i) {
+    var possible = document.getElementById('possible' + i);
     possible.addEventListener('click', function () {
-        console.log(possible);
+        console.log(possible.dataset['index']);
     })
 }
 
@@ -38,6 +38,7 @@ function displayQuestion(questionObject) {
         answerButton.textContent = answer;
         // Gives the possible answer an id of possible plus the index of the answer in the array
         answerButton.id = 'possible' + questionObject.answers.indexOf(answer);
+        answerButton.setAttribute('data-index', questionObject.answers.indexOf(answer))
         pageContainer.appendChild(answerButton);
         // Calls function to set the event listeners of the different possible answers
         setClickEvents(questionObject.answers.indexOf(answer));
