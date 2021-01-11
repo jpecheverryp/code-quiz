@@ -6,23 +6,38 @@ var startDescription = document.getElementById('start-description');
 var currentQuestion = 0;
 
 // Questions of the quiz
-var firstQuestion = {
-    // The question is a string that will be displayed
-    question: 'Which one is NOT a data type of Javascript:',
-    // The answers is an array with different strings that can be selected
-    answers: ['Boolean', 'Alert', 'String', 'Number'],
-    // The correctAnswer is the index of the correct answer in the array
-    // With Index 0
-    correctAnswer: 1
-}
 
-var secondQuestion = {
-    question: 'You can use arrays on Javascript to store: ',
-    answers: ['Numbers and Strings', 'Booleans', 'Other Arrays', 'All of the above'],
-    correctAnswer: 3 //INDEX 0
-}
-
-var allTheQuestions = [firstQuestion, secondQuestion];
+var allTheQuestions = [
+    {
+        // The question is a string that will be displayed
+        question: 'Which one is NOT a data type of Javascript:',
+        // The answers is an array with different strings that can be selected
+        answers: ['Boolean', 'Alert', 'String', 'Number'],
+        // The correctAnswer is the index of the correct answer in the array
+        // With Index 0
+        correctAnswer: 1
+    }, 
+    {
+        question: 'You can use arrays on Javascript to store: ',
+        answers: ['Numbers and Strings', 'Booleans', 'Other Arrays', 'All of the above'],
+        correctAnswer: 3 //INDEX 0
+    }, 
+    {
+        question: 'What does DOM stand for:',
+        answers: ['Desktop Object Model', 'Disk Old Memory', 'Document Object Model', 'Dashboard Online Modifier'],
+        correctAnswer: 2//INDEX 0
+    },
+    {
+        question: 'Which one is a JS Library:',
+        answers: ['Jquery', 'Bootstrap', 'SASS', 'SQL'],
+        correctAnswer: 0//INDEX 0
+    },
+    {
+        question: 'To declare a string you have to enclose it between:',
+        answers: ['Parenthesis', 'Curly braces', 'Quotation Marks', 'Semicolons'],
+        correctAnswer: 2//INDEX 0
+    }
+];
 
 // ------------------------------------------------------------------------
 // FUNCTIONS
