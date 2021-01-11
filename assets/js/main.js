@@ -3,6 +3,7 @@ var pageContainer = document.getElementById('page-container');
 var startButton = document.getElementById('start-button');
 var startHeading = document.getElementById('start-heading');
 var startDescription = document.getElementById('start-description');
+var currentQuestion = 0;
 
 // Questions of the quiz
 var firstQuestion = {
@@ -15,10 +16,36 @@ var firstQuestion = {
     correctAnswer: 1
 }
 
-function setClickEvents(i) {
-    var possible = document.getElementById('possible' + i);
-    possible.addEventListener('click', function () {
-        console.log(possible.dataset['index']);
+var secondQuestion = {
+    question: 'You can use arrays on Javascript to store: ',
+    answers: ['Numbers and Strings', 'Booleans', 'Other Arrays', 'All of the above'],
+    correctAnswer: 3 //INDEX 0
+}
+
+var allTheQuestions = [firstQuestion, secondQuestion];
+
+// ------------------------------------------------------------------------
+// FUNCTIONS
+
+function setClickEvents(i, rightAnswer) {
+    var possibleAnswer = document.getElementById('possible' + i);
+    possibleAnswer.addEventListener('click', function () {
+        currentQuestion++;
+        var selectedAnswer = Number(possibleAnswer.dataset['index']);
+        if (selectedAnswer === rightAnswer) {
+            console.log('correct');
+        } else {
+            console.log('wrong');
+        }
+
+        console.log(currentQuestion);
+
+        if (currentQuestion === allTheQuestions.length) {
+            cleanScreen();
+            console.log('no more questions');
+        } else {
+            displayQuestion(allTheQuestions[currentQuestion]);
+        }
     })
 }
 
@@ -33,27 +60,26 @@ function displayQuestion(questionObject) {
     pageContainer.appendChild(questionHeading);
 
     // Creates a button for each possible answer and appends it to page
-    questionObject.answers.forEach(answer => {
-        var answerButton = document.createElement('button');
-        answerButton.textContent = answer;
-        // Gives the possible answer an id of possible plus the index of the answer in the array
-        answerButton.id = 'possible' + questionObject.answers.indexOf(answer);
-        answerButton.setAttribute('data-index', questionObject.answers.indexOf(answer))
-        pageContainer.appendChild(answerButton);
-        // Calls function to set the event listeners of the different possible answers
-        setClickEvents(questionObject.answers.indexOf(answer));
-    });
-    
+    questionObject.answers.forEach(function (answer) {
+            var answerButton = document.createElement('button');
+            answerButton.textContent = answer;
+            // Gives the possible answer an id of possible plus the index of the answer in the array
+            answerButton.id = 'possible' + questionObject.answers.indexOf(answer);
+            answerButton.setAttribute('data-index', questionObject.answers.indexOf(answer));
+            pageContainer.appendChild(answerButton);
+            // Calls function to set the event listeners of the different possible answers
+            setClickEvents(questionObject.answers.indexOf(answer), questionObject.correctAnswer);
+        });
 }
 
 function cleanScreen() {
-    while(pageContainer.firstChild) {
+    while (pageContainer.firstChild) {
         pageContainer.removeChild(pageContainer.firstChild);
     }
 }
 
 function startQuiz() {
-    displayQuestion(firstQuestion);
+    displayQuestion(allTheQuestions[currentQuestion])
 }
 
 startButton.addEventListener('click', startQuiz);
