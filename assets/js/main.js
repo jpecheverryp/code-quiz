@@ -54,9 +54,9 @@ function setTimer() {
                 clearInterval(timerInterval);
                 endQuiz(secondsLeft);
             }
-            
+
         }
-        
+
     }, 1000)
 }
 
@@ -66,10 +66,10 @@ function setClickEvents(i, rightAnswer) {
         currentQuestion++;
         var selectedAnswer = Number(possibleAnswer.dataset['index']);
         if (selectedAnswer === rightAnswer) {
-            console.log('correct');
+            correctWrong('Correct!!');
         } else {
             secondsLeft = secondsLeft - 10;
-            console.log('wrong');
+            correctWrong('Wrong!');
         }
 
         if (currentQuestion === allTheQuestions.length) {
@@ -119,6 +119,26 @@ function displayQuestion(questionObject) {
     });
 }
 
+// Displays if the answer was correct or wrong for 1500 miliseconds
+// Then erases it
+function correctWrong(option) {
+    var hr = document.createElement('hr');
+    document.body.appendChild(hr);
+
+    var text = document.createElement('p');
+    text.textContent = option;
+    document.body.appendChild(text);
+
+    var solutionTimer = setInterval(function () {
+        clearInterval(solutionTimer);
+        hr.hidden = true;
+        text.textContent = '';
+    }, 1500)
+
+}
+
+
+// Removes every element on pageContainer
 function cleanScreen() {
     while (pageContainer.firstChild) {
         pageContainer.removeChild(pageContainer.firstChild);
