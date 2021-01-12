@@ -5,6 +5,7 @@ var startHeading = document.getElementById('start-heading');
 var startDescription = document.getElementById('start-description');
 var timerElement = document.getElementById('timer');
 var currentQuestion = 0;
+var isFinished = false;
 // Questions of the quiz
 
 var allTheQuestions = [
@@ -16,12 +17,12 @@ var allTheQuestions = [
         // The correctAnswer is the index of the correct answer in the array
         // With Index 0
         correctAnswer: 1
-    }, 
+    },
     {
         question: 'You can use arrays on Javascript to store: ',
         answers: ['Numbers and Strings', 'Booleans', 'Other Arrays', 'All of the above'],
         correctAnswer: 3 //INDEX 0
-    }, 
+    },
     {
         question: 'What does DOM stand for:',
         answers: ['Desktop Object Model', 'Disk Old Memory', 'Document Object Model', 'Dashboard Online Modifier'],
@@ -45,13 +46,17 @@ var allTheQuestions = [
 var secondsLeft = 75;
 function setTimer() {
     var timerInterval = setInterval(function () {
-        secondsLeft--;
-        timerElement.textContent = secondsLeft;
+        if (isFinished === false) {
+            secondsLeft--;
+            timerElement.textContent = secondsLeft;
 
-        if (secondsLeft === 0) {
-            clearInterval(timerInterval);
-            console.log('time up');
+            if (secondsLeft === 0 || secondsLeft < 0) {
+                clearInterval(timerInterval);
+                endQuiz(secondsLeft);
+            }
+            
         }
+        
     }, 1000)
 }
 
@@ -63,14 +68,14 @@ function setClickEvents(i, rightAnswer) {
         if (selectedAnswer === rightAnswer) {
             console.log('correct');
         } else {
+            secondsLeft = secondsLeft - 10;
             console.log('wrong');
         }
 
-        console.log(currentQuestion);
-
         if (currentQuestion === allTheQuestions.length) {
             cleanScreen();
-            console.log('no more questions');
+            endQuiz(secondsLeft);
+            timerElement.textContent = secondsLeft;
         } else {
             displayQuestion(allTheQuestions[currentQuestion]);
         }
@@ -78,9 +83,16 @@ function setClickEvents(i, rightAnswer) {
 }
 
 // Finish quiz
-function endQuiz() {
+function endQuiz(score) {
+    isFinished = true;
     cleanScreen();
-    
+    var endHeading = document.createElement('h2');
+    endHeading.textContent = 'All Done';
+    pageContainer.appendChild(endHeading);
+
+    var endScore = document.createElement('p');
+    endScore.textContent = 'Your Score is ' + score + '.';
+    pageContainer.appendChild(endScore);
 }
 
 
@@ -96,15 +108,15 @@ function displayQuestion(questionObject) {
 
     // Creates a button for each possible answer and appends it to page
     questionObject.answers.forEach(function (answer) {
-            var answerButton = document.createElement('button');
-            answerButton.textContent = answer;
-            // Gives the possible answer an id of possible plus the index of the answer in the array
-            answerButton.id = 'possible' + questionObject.answers.indexOf(answer);
-            answerButton.setAttribute('data-index', questionObject.answers.indexOf(answer));
-            pageContainer.appendChild(answerButton);
-            // Calls function to set the event listeners of the different possible answers
-            setClickEvents(questionObject.answers.indexOf(answer), questionObject.correctAnswer);
-        });
+        var answerButton = document.createElement('button');
+        answerButton.textContent = answer;
+        // Gives the possible answer an id of possible plus the index of the answer in the array
+        answerButton.id = 'possible' + questionObject.answers.indexOf(answer);
+        answerButton.setAttribute('data-index', questionObject.answers.indexOf(answer));
+        pageContainer.appendChild(answerButton);
+        // Calls function to set the event listeners of the different possible answers
+        setClickEvents(questionObject.answers.indexOf(answer), questionObject.correctAnswer);
+    });
 }
 
 function cleanScreen() {
