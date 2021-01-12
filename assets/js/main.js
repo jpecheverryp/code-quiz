@@ -3,8 +3,8 @@ var pageContainer = document.getElementById('page-container');
 var startButton = document.getElementById('start-button');
 var startHeading = document.getElementById('start-heading');
 var startDescription = document.getElementById('start-description');
+var timerElement = document.getElementById('timer');
 var currentQuestion = 0;
-
 // Questions of the quiz
 
 var allTheQuestions = [
@@ -41,6 +41,19 @@ var allTheQuestions = [
 
 // ------------------------------------------------------------------------
 // FUNCTIONS
+// Timer
+var secondsLeft = 75;
+function setTimer() {
+    var timerInterval = setInterval(function () {
+        secondsLeft--;
+        timerElement.textContent = secondsLeft;
+
+        if (secondsLeft === 0) {
+            clearInterval(timerInterval);
+            console.log('time up');
+        }
+    }, 1000)
+}
 
 function setClickEvents(i, rightAnswer) {
     var possibleAnswer = document.getElementById('possible' + i);
@@ -63,6 +76,13 @@ function setClickEvents(i, rightAnswer) {
         }
     })
 }
+
+// Finish quiz
+function endQuiz() {
+    cleanScreen();
+    
+}
+
 
 // Cleans the screen and adds a heading2 and 4 buttons using the question object
 function displayQuestion(questionObject) {
@@ -94,6 +114,7 @@ function cleanScreen() {
 }
 
 function startQuiz() {
+    setTimer();
     displayQuestion(allTheQuestions[currentQuestion])
 }
 
