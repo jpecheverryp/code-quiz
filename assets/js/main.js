@@ -3,6 +3,8 @@ var pageContainer = document.getElementById('page-container');
 var startButton = document.getElementById('start-button');
 var startHeading = document.getElementById('start-heading');
 var startDescription = document.getElementById('start-description');
+var highScoreContainer = document.getElementById('highscore-container');
+var timerContainer = document.getElementById('timer-container');
 var timerElement = document.getElementById('timer');
 var currentQuestion = 0;
 var isFinished = false;
@@ -71,6 +73,7 @@ function setClickEvents(i, rightAnswer) {
             correctWrong('Correct!!');
         } else {
             secondsLeft = secondsLeft - 10;
+            timerElement.textContent = secondsLeft;
             correctWrong('Wrong!');
         }
 
@@ -97,7 +100,6 @@ function addToHighscore(newInitials, newScore) {
         var scoreBundle = [newInitials, newScore];
         highScores.push(scoreBundle);
         localStorage.setItem('HIGHSCORES', JSON.stringify(highScores));
-        console.log(highScores);
     }
 }
 
@@ -134,6 +136,8 @@ function endQuiz(score) {
         event.preventDefault();
         var initials = initialsBox.value;
         addToHighscore(initials, score);
+        showHighScores();
+
     })
 
 }
@@ -191,6 +195,45 @@ function cleanScreen() {
 function startQuiz() {
     setTimer();
     displayQuestion(allTheQuestions[currentQuestion])
+}
+
+function showHighScores() {
+    // Clears the whole page
+    highScoreContainer.style.display = 'none';
+    timerContainer.style.display = 'none';
+    cleanScreen();
+    
+    var highscoreHeading = document.createElement('h2');
+    highscoreHeading.textContent = 'High-Scores';
+    pageContainer.appendChild(highscoreHeading);
+
+    var scoresList = document.createElement('ul');
+    pageContainer.appendChild(scoresList);
+
+    if(localStorage.getItem('HIGHSCORES') === null){
+        var highscores = [];
+    } else {
+        var highscores = JSON.parse(localStorage.getItem('HIGHSCORES'));
+    }
+
+
+    highscores.forEach(highscore => {
+        scoreItem = document.createElement('li');
+        scoreItem.textContent = `${highscore[0]} - ${highscore[1]}`;
+        scoresList.appendChild(scoreItem);
+    })
+
+    var backBtn = document.createElement('button');
+    backBtn.textContent = 'BACK';
+    pageContainer.appendChild(backBtn);
+
+    var clearBtn = document.createElement('button');
+    clearBtn.textContent = 'CLEAR';
+    pageContainer.appendChild(clearBtn);
+    clearBtn.addEventListener('click', function () {
+        localStorage.removeItem('HIGHSCORES');
+        showHighScores()
+    })
 }
 
 startButton.addEventListener('click', startQuiz);
