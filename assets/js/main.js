@@ -45,6 +45,8 @@ var allTheQuestions = [
 // Timer
 var secondsLeft = 75;
 function setTimer() {
+    secondsLeft = 75;
+    timerElement.textContent = secondsLeft;
     var timerInterval = setInterval(function () {
         if (isFinished === false) {
             secondsLeft--;
@@ -82,6 +84,23 @@ function setClickEvents(i, rightAnswer) {
     })
 }
 
+function addToHighscore(newInitials, newScore) {
+    // check if there is not a highscores array on localStorage
+    // If there is not it creates array if there is it retrieves it
+    if(localStorage.getItem('HIGHSCORES') === null){
+        var highScores = [];
+    } else {
+        var highScores = JSON.parse(localStorage.getItem('HIGHSCORES'));
+    }
+    //
+    if(highScores.length < 10) {
+        var scoreBundle = [newInitials, newScore];
+        highScores.push(scoreBundle);
+        localStorage.setItem('HIGHSCORES', JSON.stringify(highScores));
+        console.log(highScores);
+    }
+}
+
 // Finish quiz
 function endQuiz(score) {
     isFinished = true;
@@ -93,6 +112,30 @@ function endQuiz(score) {
     var endScore = document.createElement('p');
     endScore.textContent = 'Your Score is ' + score + '.';
     pageContainer.appendChild(endScore);
+
+    var scoreForm = document.createElement('form');
+    pageContainer.appendChild(scoreForm);
+
+
+    var label = document.createElement('label');
+    label.textContent = 'Enter your initials: ';
+    label.setAttribute('for', 'initials');
+    scoreForm.appendChild(label);
+
+    var initialsBox = document.createElement('input');
+    initialsBox.setAttribute('type', 'text');
+    initialsBox.setAttribute('id', 'initials')
+    scoreForm.appendChild(initialsBox);
+
+    var submitInitials = document.createElement('button');
+    submitInitials.textContent = 'Submit';
+    scoreForm.appendChild(submitInitials);
+    submitInitials.addEventListener('click', function (event) {
+        event.preventDefault();
+        var initials = initialsBox.value;
+        addToHighscore(initials, score);
+    })
+
 }
 
 
