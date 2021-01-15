@@ -220,7 +220,7 @@ function showHighScores() {
 
     highscores.forEach(highscore => {
         scoreItem = document.createElement('li');
-        scoreItem.textContent = `${highscore[0]} - ${highscore[1]}`;
+        scoreItem.textContent = `${highscore[0]} | ${highscore[1]}`;
         scoresList.appendChild(scoreItem);
     })
 
