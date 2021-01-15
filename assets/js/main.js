@@ -4,6 +4,7 @@ var startButton = document.getElementById('start-button');
 var startHeading = document.getElementById('start-heading');
 var startDescription = document.getElementById('start-description');
 var highScoreContainer = document.getElementById('highscore-container');
+var highscoreLink = document.getElementById('highscore-link');
 var timerContainer = document.getElementById('timer-container');
 var timerElement = document.getElementById('timer');
 var currentQuestion = 0;
@@ -226,6 +227,9 @@ function showHighScores() {
     var backBtn = document.createElement('button');
     backBtn.textContent = 'BACK';
     pageContainer.appendChild(backBtn);
+    backBtn.addEventListener('click', function () {
+        document.location.reload();
+    })
 
     var clearBtn = document.createElement('button');
     clearBtn.textContent = 'CLEAR';
@@ -237,3 +241,5 @@ function showHighScores() {
 }
 
 startButton.addEventListener('click', startQuiz);
+highscoreLink.addEventListener('click', showHighScores);
+    
